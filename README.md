@@ -92,14 +92,14 @@ targeted for the CAFA Challenge.
 * ***STEP 2:*** Prepare BLAST results
     * Build a Blast database from the fasta-formatted "gold standard" data from ***Requirements***:
         ```bash
-        makeblastdb -in <gold_standard.fa> -out <gold_standard_MFO> -dbtype prot
+        makeblastdb -in <gold_standard.fasta> -out <gold_standard_MFO> -dbtype prot
         ```
       
     * Run `blastp` on the query sequences against the "gold standard" sequences by
       setting output format to be the following:
 
       ```bash
-      blastp -query -db <gold_standard_MFO> -outfmt "6 qseqid sseqid evalue length pident nident" -out blastp.out
+      blastp -query <query_protein_sequences.fasta> -db <gold_standard_MFO> -outfmt "6 qseqid sseqid evalue length pident nident" -out blastp.out
       ```
       Using the `-num_threads` flag for `blastp` can speed up your query.
     
