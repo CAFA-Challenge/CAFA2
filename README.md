@@ -15,9 +15,7 @@ is published in *Genome Biology*, and you can also find the latest *arXiv* versi
 ### *BLAST* predictor
 
 #### Requirements
-1. "Gold standard" data
-<br />
-This is proteins with known annotation in SwissProt.
+1. "Gold standard" data. This is proteins with known annotation in SwissProt.
 
     * Sequences in **FASTA** format.
 
