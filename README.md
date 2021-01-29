@@ -15,11 +15,13 @@ is published in *Genome Biology*, and you can also find the latest *arXiv* versi
 ### *BLAST* predictor
 
 #### Requirements
-1. "Training" data
+1. "Gold standard" data
+<br />
+This is proteins with known annotation in SwissProt.
 
     * Sequences in **FASTA** format.
 
-    * Annotations (MFO terms for exmaple) for each of these sequences. This data
+    * Annotations (MFO terms for example) for each of these sequences. This data
       needs to be prepared ahead of time as a two-column **CSV** file (delimited
       by `TAB`)
 
@@ -28,17 +30,18 @@ is published in *Genome Biology*, and you can also find the latest *arXiv* versi
       ```
 
       where `<sequence ID>` would be of any ID systems (e.g., UniProt accession
-      number), as long as they are consistant with those used in the FASTA file.
+      number), as long as they are consistent with those used in the FASTA file.
 
   2. NCBI BLAST tool (used 2.2.29+ for this document)
 
-  3. Query sequences in **FASTA** format.
+  3. Query sequences in **FASTA** format. Query sequences are the unannotated proteins
+targeted for the CAFA Challenge.
 
 #### Step-by-step
 * ***STEP 1:*** Load annotations of training sequences.
     * Load ontology structure(s)
 
-      Ontologies need to be load into a specific MATLAB structure which will be
+      Ontologies need to be loaded into a specific MATLAB structure which will be
       later used in evaluation. Here we provide two "adapters" for (i) OBO files or
       (ii) parsed plain-text files.
 
@@ -87,13 +90,41 @@ is published in *Genome Biology*, and you can also find the latest *arXiv* versi
       `<sequence ID> <term ID>` annotation pairs in each line.
 
 * ***STEP 2:*** Prepare BLAST results
-    * Run `blastp` on the query sequences against the "training" sequences by
+    * Build a Blast database from the fasta-formatted "gold standard" data from ***Requirements***:
+        ```bash
+        makeblastdb -in <gold_standard.fa> -out <gold_standard_MFO> -dbtype prot
+        ```
+      
+    * Run `blastp` on the query sequences against the "gold standard" sequences by
       setting output format to be the following:
 
       ```bash
-      blastp ... -outfmt "6 qseqid sseqid evalue length pident nident" -out blastp.out
+      blastp -query -db <gold_standard_MFO> -outfmt "6 qseqid sseqid evalue length pident nident" -out blastp.out
       ```
-
+      Using the `-num_threads` flag for `blastp` can speed up your query.
+    
+      `blastp` should produce output similar to this:
+      <pre>
+      1A1L2_HUMAN	TEX37_HUMAN	0.47	    107	23.364	25
+      1A1L2_HUMAN	GHRA_ECOLI	0.68	    102	29.412	30
+      1A1L2_HUMAN	RFC_ECOLI	1.5	    105	23.810	25
+      1A1L2_HUMAN	DAPAT_ARATH	3.0	    133	21.053	28
+      1A1L2_HUMAN	NCAP_VSIVA	5.6	    72	26.389	19
+      1A1L2_HUMAN	KDIS_RAT	5.8	    51	29.412	15
+      1A1L2_HUMAN	TLH1_SCHPO	6.9	    61	32.787	20
+      1A1L2_HUMAN	CASPC_MOUSE	7.3	    168	20.833	35
+      1A1L2_HUMAN	TLH2_SCHPO	7.5	    61	32.787	20
+      1A1L2_HUMAN	YIBL_ECOLI	8.4	    36	44.444	16
+      1A1L2_HUMAN	ARAP3_MOUSE	9.0	    67	29.851	20
+      2A5B_HUMAN	2A5A_MOUSE	0.0	    464	72.629	337
+      2A5B_HUMAN	2A5A_HUMAN	0.0	    424	75.472	320
+      2A5B_HUMAN	2A5E_HUMAN	0.0	    464	72.629	337
+      2A5B_HUMAN	2A5E_BOVIN	0.0	    464	72.629	337
+      2A5B_HUMAN	2A51_CAEEL	0.0	    445	66.067	294
+      2A5B_HUMAN	2A5G_HUMAN	0.0	    407	70.270	286
+      ...
+    </pre>
+  
     * Load the tabular output file (`blastp.out` as shown above) into MATLAB:
 
       ```matlab
