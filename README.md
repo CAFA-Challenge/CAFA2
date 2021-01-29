@@ -88,7 +88,7 @@ targeted for the CAFA Challenge.
       `<sequence ID> <term ID>` annotation pairs in each line.
 
 * ***STEP 2:*** Prepare BLAST results
-    * Build a Blast database from the fasta-formatted "gold standard" data from ***Requirements***:
+    * Build a Blast database from the fasta-formatted "gold standard" data from ***Requirements*** above:
         ```bash
         makeblastdb -in <gold_standard.fasta> -out <gold_standard_MFO> -dbtype prot
         ```
@@ -149,20 +149,19 @@ targeted for the CAFA Challenge.
     MATLAB for evaluation.
 
 ### *Naive* predictor
+To build a *naive* predictor, all you need is the ontology annotation
+structure `oa` that you have as in the step 1 of making a *BLAST* predictor.
+Then run the following in MATLAB:
 
-    To build a *naive* predictor, all you need is the ontology annotation
-    structure `oa` that you have as in the step 1 of making a *BLAST* predictor.
-    Then run the following in MATLAB:
-
-    ```matlab
-    naive = pfp_naive(qseqid, oa);
-    ```
+```matlab
+naive = pfp_naive(qseqid, oa);
+```
 
 ## How to evaluate your own predictions on CAFA2 benchmarks
 
-    Evaluation codes are provided mainly for reproducing results in CAFA2
-    experiments. However, one may also use a subset of codes under `matlab/` to
-    evaluate their own protein function predictors.
+Evaluation codes are provided mainly for reproducing results in CAFA2
+experiments. However, one may also use a subset of codes under `matlab/` to
+evaluate their own protein function predictors.
 
 ### Prerequisites
 * Represent protein sequences using CAFA2 target ID systems (e.g.,
@@ -248,26 +247,26 @@ targeted for the CAFA Challenge.
 ## How to "replicate" CAFA2 evaluation experiment
 
 ### Caveat
-    Due to CAFA rules, the organizers of CAFA cannot release the submitted
-    predictions from participants. Therefore, it is technically not possible to
-    replicate exact results (figures and tables) in the CAFA2 paper. Also, this
-    repository is not originally designed to be a software that is reusable as a
-    whole for protein function prediction tasks in general or even for future
-    CAFA challenges. As a result, the pipeline is not fully automatized and
-    manual input is necessary occasionally.
+Due to CAFA rules, the organizers of CAFA cannot release the submitted
+predictions from participants. Therefore, it is technically not possible to
+replicate exact results (figures and tables) in the CAFA2 paper. Also, this
+repository is not originally designed to be a software that is reusable as a
+whole for protein function prediction tasks in general or even for future
+CAFA challenges. As a result, the pipeline is not fully automatized and
+manual input is necessary occasionally.
 
-    Please also notice that this pipeline is only tested on Linux version of
-    MATLAB (2016b), it is not guaranteed to work on other OS (code might have to
-    be adapted accordingly). We also used Bioinformatics toolbox for topological
-    ordering of ontology terms (`graphtopoorder`) in some Matlab functions.
-    However, it should be fairly easy to implement your own version if this
-    toolbox is not available.
+Please also notice that this pipeline is only tested on Linux version of
+MATLAB (2016b), it is not guaranteed to work on other OS (code might have to
+be adapted accordingly). We also used Bioinformatics toolbox for topological
+ordering of ontology terms (`graphtopoorder`) in some Matlab functions.
+However, it should be fairly easy to implement your own version if this
+toolbox is not available.
 
-    With that being said, we provide scripts along with a minialist guideline to
-    assist researchers who would like to evaluate their own methods using CAFA2
-    benchmarks (along with their annotations by the time stated in the paper) so
-    as to compare their performances against CAFA2 baselines and possibly
-    against other methods.  
+With that being said, we provide scripts along with a minialist guideline to
+assist researchers who would like to evaluate their own methods using CAFA2
+benchmarks (along with their annotations by the time stated in the paper) so
+as to compare their performances against CAFA2 baselines and possibly
+against other methods.  
 
 ### Step-by-step
 1. Download this repository to your local filesystem, say `/path/to/cafa2_repo`,
@@ -366,5 +365,5 @@ targeted for the CAFA Challenge.
 
 # License
 
-    The source code used in this CAFA2 evaluation package is licensed under the
-    MIT license.
+The source code used in this CAFA2 evaluation package is licensed under the
+MIT license.
