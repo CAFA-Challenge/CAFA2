@@ -36,7 +36,7 @@ is published in *Genome Biology*, and you can also find the latest *arXiv* versi
 targeted for the CAFA Challenge.
 
 #### Step-by-step
-* ***STEP 1:*** Load annotations of training sequences.
+* ***STEP 1:*** Load annotations of "gold standard" sequences.
     * Load ontology structure(s)
 
       Ontologies need to be loaded into a specific MATLAB structure which will be
